@@ -1,0 +1,41 @@
+# Netlify Build Configuration
+# Updated to use Ubuntu Noble 24.04 (replacing deprecated Focal 20.04)
+
+[build]
+  # Publish directory - where your static files are
+  publish = "."
+  
+  # No build command needed for static HTML site
+  command = ""
+
+[build.environment]
+  # Use Ubuntu Noble 24.04 build image
+  NODE_VERSION = "20"
+
+# Use the new Ubuntu Noble image
+[context.production]
+  environment = { }
+
+# Headers for better performance
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+
+# Cache static assets
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
