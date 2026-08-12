@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+/* ========================
+   Design Tokens
+   ======================== */
+:root {
+  --obsidian: #0a0a0a;
+  --ivory: #ededed;
+  --accent: #4488ff;
+  --accent-purple: #9966ff;
+}
+
+/* ========================
+   Base Reset & Defaults
+   ======================== */
+body.custom-cursor-active,
+body.custom-cursor-active * {
+  cursor: none !important;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  body.custom-cursor-active,
+  body.custom-cursor-active * {
+    cursor: auto !important;
+  }
+}
+
+html {
+  background-color: var(--obsidian);
+  color: var(--ivory);
+  scroll-behavior: auto; /* Lenis handles smooth scroll */
+}
+
+body {
+  background-color: var(--obsidian);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================
+   Selection
+   ======================== */
+::selection {
+  background-color: rgba(237, 237, 237, 0.15);
+  color: var(--ivory);
+}
+
+/* ========================
+   Scrollbar — Minimal
+   ======================== */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(237, 237, 237, 0.12);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(237, 237, 237, 0.25);
+}
+
+/* ========================
+   Focus states
+   ======================== */
+:focus-visible {
+  outline: 1px solid rgba(237, 237, 237, 0.3);
+  outline-offset: 4px;
+}
+
+/* ========================
+   Lenis smooth scroll
+   ======================== */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ========================
+   Line clamp utility
+   ======================== */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ========================
+   Marquee Animations
+   ======================== */
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-marquee-left {
+  animation: marquee-left 20s linear infinite;
+}
+
+.animate-marquee-left:hover {
+  animation-play-state: paused;
+}
+
+.animate-marquee-right {
+  animation: marquee-right 25s linear infinite;
+}
+
+.animate-marquee-right:hover {
+  animation-play-state: paused;
+}
