@@ -56,5 +56,9 @@ export default function Magnetic({ children, strength = 0.5 }: MagneticProps) {
     };
   }, [strength]);
 
-  return React.cloneElement(children, { ref: magneticRef });
+  return (
+    <span ref={magneticRef} className="inline-block">
+      {children}
+    </span>
+  );
 }
