@@ -15,10 +15,18 @@ export default function Contact() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 85%",
+          toggleActions: "play none none reverse",
+        },
+      });
+
       // Heading reveal
       if (headingRef.current) {
         const words = headingRef.current.querySelectorAll(".word");
-        gsap.fromTo(
+        tl.fromTo(
           words,
           { y: 80, opacity: 0 },
           {
@@ -27,31 +35,24 @@ export default function Contact() {
             stagger: 0.08,
             duration: 1,
             ease: "power4.out",
-            scrollTrigger: {
-              trigger: headingRef.current,
-              start: "top 80%",
-              toggleActions: "play none none reverse",
-            },
           }
         );
       }
 
-      // Form reveal
-      gsap.fromTo(
-        formRef.current,
-        { y: 40, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: formRef.current,
-            start: "top 85%",
-            toggleActions: "play none none reverse",
+      // Form reveal (chained after heading starts)
+      if (formRef.current) {
+        tl.fromTo(
+          formRef.current,
+          { y: 40, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power3.out",
           },
-        }
-      );
+          "-=0.6" // Start slightly before the heading finishes
+        );
+      }
     }, sectionRef);
 
     return () => ctx.revert();
