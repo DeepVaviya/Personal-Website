@@ -54,7 +54,26 @@ export default function Navbar() {
             <a
               key={item.href}
               href={item.href}
-              ref={(el) => { magneticRefs.current[i] = el; }}
+              ref={(el) => {
+                magneticRefs.current[i] = el;
+              }}
+              onClick={(e) => {
+                e.preventDefault();
+                if (item.href === "#contact") {
+                  // The contact section is a fixed reveal on desktop, so native anchors fail.
+                  // We must scroll to the absolute bottom of the document to reveal it.
+                  window.scrollTo({
+                    top: document.body.scrollHeight,
+                    behavior: "smooth",
+                  });
+                } else {
+                  // Normal smooth scroll for other sections
+                  const target = document.querySelector(item.href);
+                  if (target) {
+                    target.scrollIntoView({ behavior: "smooth" });
+                  }
+                }
+              }}
               onMouseMove={(e) => handleMouseMove(e, i)}
               onMouseLeave={() => handleMouseLeave(i)}
               className="font-sans text-xs uppercase tracking-[0.2em] interactive transition-opacity duration-300 hover:opacity-60"
