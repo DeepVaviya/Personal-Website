@@ -1,9 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "export",
+  // Removed output: "export" so Netlify handles it natively
   images: { unoptimized: true },
-  trailingSlash: true,
 };
 
 export default nextConfig;
