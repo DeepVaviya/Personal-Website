@@ -1,13 +1,30 @@
 "use client";
 
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Suspense } from "react";
 import { Preload } from "@react-three/drei";
-import { EffectComposer, Noise, ChromaticAberration } from "@react-three/postprocessing";
-import { BlendFunction } from "postprocessing";
-import * as THREE from "three";
+import { useScrollStore } from "@/stores/scrollStore";
 import HeroObject from "./HeroObject";
 import Lighting from "./Lighting";
+
+/**
+ * PERF: Invalidation controller — tells R3F to only render frames
+ * when the hero section is visible. When scrolled past, the canvas
+ * stops rendering entirely (0 GPU draw calls, 0 CPU).
+ */
+function FrameGate() {
+  const { invalidate } = useThree();
+
+  useFrame(() => {
+    const { heroProgress } = useScrollStore.getState();
+    // Only request the next frame if the hero is still visible
+    if (heroProgress < 0.98) {
+      invalidate();
+    }
+  });
+
+  return null;
+}
 
 export default function Scene() {
   return (
@@ -21,11 +38,12 @@ export default function Scene() {
         dpr={[1, 1.5]}
         camera={{ position: [0, 0, 5], fov: 45 }}
         style={{ background: "transparent" }}
+        frameloop="demand" /* PERF: Only render when invalidate() is called */
       >
         <Suspense fallback={null}>
           <Lighting />
           <HeroObject />
-          
+          <FrameGate />
           <Preload all />
         </Suspense>
       </Canvas>

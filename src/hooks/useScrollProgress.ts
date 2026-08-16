@@ -13,6 +13,7 @@ export function useScrollProgress() {
     setHeroProgress,
     setAboutProgress,
     setWorkProgress,
+    setShowcaseProgress,
     setVelocity,
     setActiveSection,
   } = useScrollStore();
@@ -48,6 +49,8 @@ export function useScrollProgress() {
       onEnter: () => setActiveSection("about"),
       onEnterBack: () => setActiveSection("about"),
     });
+
+
 
     // Work section progress
     ScrollTrigger.create({
@@ -85,6 +88,7 @@ export function useScrollProgress() {
     setHeroProgress,
     setAboutProgress,
     setWorkProgress,
+    setShowcaseProgress,
     setVelocity,
     setActiveSection,
   ]);

@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import gsap from "gsap";
 
-const TRAIL_COUNT = 12;
+// PERF: Reduced from 12 to 5 trail particles — 58% fewer DOM updates per frame
+const TRAIL_COUNT = 5;
 
 export default function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
@@ -15,8 +16,15 @@ export default function CustomCursor() {
     Array.from({ length: TRAIL_COUNT }, () => ({ x: -100, y: -100 }))
   );
   const rafId = useRef<number>(0);
+  const isDocVisible = useRef(true);
 
   const animateTrail = useCallback(() => {
+    // PERF: Skip animation when tab is backgrounded (Phase 3 pattern)
+    if (!isDocVisible.current) {
+      rafId.current = requestAnimationFrame(animateTrail);
+      return;
+    }
+
     // Each trail particle follows the one ahead with a delay
     for (let i = TRAIL_COUNT - 1; i > 0; i--) {
       trailPositions.current[i].x +=
@@ -44,7 +52,13 @@ export default function CustomCursor() {
     // Hide cursor on touch devices
     if ("ontouchstart" in window) return;
 
-    // Activate custom cursor (hides native cursor via CSS class)
+    // PERF: Pause trail animation when tab is hidden (Phase 3 pattern)
+    const handleVisChange = () => {
+      isDocVisible.current = !document.hidden;
+    };
+    document.addEventListener("visibilitychange", handleVisChange);
+
+    // Activate custom cursor
     document.body.classList.add("custom-cursor-active");
 
     const cursor = cursorRef.current;
@@ -108,6 +122,7 @@ export default function CustomCursor() {
       window.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseover", handleMouseOver);
       document.removeEventListener("mouseout", handleMouseOut);
+      document.removeEventListener("visibilitychange", handleVisChange);
       cancelAnimationFrame(rafId.current);
     };
   }, [animateTrail]);
@@ -126,14 +141,13 @@ export default function CustomCursor() {
           }}
           className="fixed top-0 left-0 pointer-events-none z-[9998] rounded-full"
           style={{
-            width: `${Math.max(3, 8 - i * 0.5)}px`,
-            height: `${Math.max(3, 8 - i * 0.5)}px`,
-            backgroundColor: `rgba(150, 120, 255, ${0.6 - i * 0.045})`,
+            width: `${Math.max(3, 8 - i * 1)}px`,
+            height: `${Math.max(3, 8 - i * 1)}px`,
+            backgroundColor: `rgba(150, 120, 255, ${0.6 - i * 0.1})`,
             boxShadow:
-              i < 4
-                ? `0 0 ${6 - i}px rgba(150, 120, 255, ${0.3 - i * 0.06})`
+              i < 2
+                ? `0 0 ${6 - i * 2}px rgba(150, 120, 255, ${0.3 - i * 0.1})`
                 : "none",
-            transition: "width 0.3s, height 0.3s",
           }}
         />
       ))}

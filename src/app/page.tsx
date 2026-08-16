@@ -14,16 +14,16 @@ export default function Home() {
 
   return (
     <>
-      {/* Main Content (Sits above the footer and slides up to reveal it) */}
-      <main className="relative z-10 bg-[#0a0a0a] mb-[100vh]">
+      {/* Main Content (Sits above the footer and slides up to reveal it on desktop) */}
+      <main className="relative z-10 bg-[#0a0a0a] md:mb-[100vh]">
         <Hero />
         <About />
         <Work />
         <Education />
       </main>
 
-      {/* Giant Reveal Footer (Fixed behind main content) */}
-      <div className="fixed bottom-0 left-0 w-full h-[100vh] z-0 flex flex-col justify-end bg-[#050505]">
+      {/* Footer Container (Relative min-h-screen on mobile to perfectly frame content, Fixed reveal on desktop) */}
+      <div className="relative md:fixed md:bottom-0 left-0 w-full min-h-[100vh] md:h-[100vh] z-0 flex flex-col bg-[#050505]">
         <Contact />
         <Footer />
       </div>

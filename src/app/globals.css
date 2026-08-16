@@ -140,3 +140,23 @@ html.lenis body {
 .animate-marquee-right:hover {
   animation-play-state: paused;
 }
+
+/* ========================
+   PERF: content-visibility for below-fold sections
+   Tells the browser: "skip layout/paint for this until it's near viewport"
+   ======================== */
+#work,
+#education {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
+}
+
+/* PERF: Only promote to GPU layer on hover, not statically */
+.project-card-wrapper {
+  will-change: auto;
+}
+
+.project-card-wrapper:hover {
+  will-change: transform, opacity;
+}
+

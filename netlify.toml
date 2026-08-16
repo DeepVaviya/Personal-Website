@@ -9,7 +9,9 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
 
+# Serve the SPA index for all routes (except files that exist on disk)
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+  conditions = {Role = [""]}

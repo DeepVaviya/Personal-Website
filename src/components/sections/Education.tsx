@@ -62,26 +62,26 @@ export default function Education() {
     <section
       ref={sectionRef}
       id="education"
-      className="relative py-32 md:py-48 px-6 md:px-16 lg:px-24 overflow-hidden"
+      className="relative py-16 sm:py-24 md:py-32 lg:py-48 px-4 sm:px-6 md:px-16 lg:px-24 overflow-hidden"
     >
       {/* Scroll-Reactive Kinetic Background Text */}
       <div className="absolute top-1/2 -translate-y-1/2 left-0 w-full pointer-events-none select-none z-0 opacity-[0.03]">
-        <KineticText speed={0.07} direction={-1} className="font-serif text-[25vw] tracking-tighter">
+        <KineticText speed={0.07} direction={-1} className="font-serif text-[15vw] sm:text-[18vw] md:text-[22vw] lg:text-[25vw] tracking-tighter">
           ACADEMIC BACKGROUND — CONTINUOUS LEARNING —
         </KineticText>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Section label */}
-      <div className="mb-16 md:mb-24">
+      <div className="mb-10 sm:mb-12 md:mb-20 lg:mb-24">
         <span
-          className="font-sans text-xs uppercase tracking-[0.3em]"
+          className="font-sans text-[10px] sm:text-xs uppercase tracking-[0.3em]"
           style={{ color: "rgba(237,237,237,0.35)" }}
         >
           03 / Education
         </span>
         <h2
-          className="font-serif text-4xl md:text-6xl lg:text-7xl mt-4 tracking-tight"
+          className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-7xl mt-4 tracking-tight"
           style={{ color: "#ededed" }}
         >
           Background
@@ -99,7 +99,7 @@ export default function Education() {
         {education.map((edu, i) => (
           <div
             key={i}
-            className="edu-entry relative pl-8 md:pl-20 pb-16 last:pb-0"
+            className="edu-entry relative pl-6 sm:pl-8 md:pl-20 pb-10 sm:pb-12 md:pb-16 last:pb-0"
           >
             {/* Timeline dot */}
             <div

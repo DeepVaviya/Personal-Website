@@ -15,8 +15,8 @@ interface KineticTextProps {
 
 export default function KineticText({
   children,
-  direction = 1,
-  speed = 0.05,
+  direction: initialDirection = 1,
+  speed: initialSpeed = 0.05,
   className = "",
 }: KineticTextProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -25,9 +25,18 @@ export default function KineticText({
 
   useEffect(() => {
     let xPercent = 0;
-    let animationFrameId: number;
+    let animationFrameId: number | null = null;
+    let currentSpeed = initialSpeed;
+    let currentDirection = initialDirection;
+    let isVisible = false; // IO-pause gate
 
     const animate = () => {
+      // PERF: IO-pause — only animate when section is visible
+      if (!isVisible) {
+        animationFrameId = null;
+        return;
+      }
+
       if (xPercent < -100) {
         xPercent = 0;
       } else if (xPercent > 0) {
@@ -39,40 +48,52 @@ export default function KineticText({
         gsap.set(textRef2.current, { xPercent });
       }
 
-      xPercent += speed * direction;
+      xPercent += currentSpeed * currentDirection;
       animationFrameId = requestAnimationFrame(animate);
     };
 
-    animationFrameId = requestAnimationFrame(animate);
+    // PERF: IntersectionObserver gate — pause RAF when off-screen
+    // This is the exact Phase 2 pattern from the optimization plan
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && !animationFrameId) {
+          animationFrameId = requestAnimationFrame(animate);
+        }
+      },
+      { rootMargin: "100px" }
+    );
 
-    // Scroll velocity tracking to alter speed and direction
+    if (containerRef.current) {
+      io.observe(containerRef.current);
+    }
+
+    // Scroll velocity tracking
     const st = ScrollTrigger.create({
       trigger: document.body,
       start: "top top",
       end: "bottom bottom",
       onUpdate: (self) => {
-        // Increase speed drastically on scroll, depending on velocity
         const velocity = self.getVelocity();
-        // If scrolling down, move left. If scrolling up, move right.
-        direction = velocity > 0 ? -1 : 1;
-        // Clamp speed boost
-        speed = Math.max(0.05, Math.min(Math.abs(velocity) / 500, 2));
+        currentDirection = velocity > 0 ? -1 : 1;
+        currentSpeed = Math.max(0.05, Math.min(Math.abs(velocity) / 500, 2));
       },
     });
 
-    // Decay the speed back to normal after scrolling stops
+    // PERF: Decay interval — increased from 50ms to 100ms (half the CPU wake-ups)
     const decay = setInterval(() => {
-      if (speed > 0.05) {
-        speed = Math.max(0.05, speed * 0.9);
+      if (currentSpeed > 0.05) {
+        currentSpeed = Math.max(0.05, currentSpeed * 0.9);
       }
-    }, 50);
+    }, 100);
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
       clearInterval(decay);
       st.kill();
+      io.disconnect();
     };
-  }, [direction, speed]);
+  }, [initialDirection, initialSpeed]);
 
   return (
     <div

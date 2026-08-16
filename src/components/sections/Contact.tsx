@@ -61,15 +61,15 @@ export default function Contact() {
     <section
       ref={sectionRef}
       id="contact"
-      className="relative h-full flex flex-col justify-center px-6 md:px-16 lg:px-24 max-w-[1920px] mx-auto w-full pt-16"
+      className="relative flex-1 flex flex-col justify-center px-4 sm:px-6 md:px-16 lg:px-24 max-w-[1920px] mx-auto w-full pt-16 sm:pt-20 lg:pt-16 pb-8 sm:pb-12"
     >
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start lg:items-center">
         {/* Left side — Heading + Info */}
         <div className="flex flex-col justify-center">
           <h2
             ref={headingRef}
-            className="font-serif text-[12vw] lg:text-[9vw] leading-[0.9] tracking-tighter overflow-hidden pb-4 -mb-4 pt-4 -mt-4"
+            className="font-serif text-[10vw] sm:text-[10vw] md:text-[9vw] lg:text-[7vw] leading-[0.9] tracking-tighter overflow-hidden pb-2 -mb-2"
             style={{ color: "#ededed" }}
           >
             {"Let's work together".split(" ").map((word, i) => (
@@ -79,17 +79,17 @@ export default function Contact() {
             ))}
           </h2>
 
-          <div className="mt-8 md:mt-12 space-y-4 md:space-y-6">
+          <div className="mt-6 sm:mt-8 lg:mt-12 space-y-3 sm:space-y-4 lg:space-y-6">
             <div>
               <span
-                className="font-sans text-xs uppercase tracking-[0.2em] block mb-2"
+                className="font-sans text-[10px] sm:text-xs uppercase tracking-[0.2em] block mb-1"
                 style={{ color: "rgba(237,237,237,0.35)" }}
               >
                 Email
               </span>
               <a
                 href={`mailto:${personalInfo.email}`}
-                className="interactive font-sans text-base transition-opacity duration-300 hover:opacity-60"
+                className="interactive font-sans text-sm sm:text-base transition-opacity duration-300 hover:opacity-60 break-all"
                 style={{ color: "#ededed" }}
               >
                 {personalInfo.email}
@@ -97,14 +97,14 @@ export default function Contact() {
             </div>
             <div>
               <span
-                className="font-sans text-xs uppercase tracking-[0.2em] block mb-2"
+                className="font-sans text-[10px] sm:text-xs uppercase tracking-[0.2em] block mb-1"
                 style={{ color: "rgba(237,237,237,0.35)" }}
               >
                 Phone
               </span>
               <a
                 href={`tel:${personalInfo.phone}`}
-                className="interactive font-sans text-base transition-opacity duration-300 hover:opacity-60"
+                className="interactive font-sans text-sm sm:text-base transition-opacity duration-300 hover:opacity-60"
                 style={{ color: "#ededed" }}
               >
                 {personalInfo.phone}
@@ -112,19 +112,19 @@ export default function Contact() {
             </div>
             <div>
               <span
-                className="font-sans text-xs uppercase tracking-[0.2em] block mb-2"
+                className="font-sans text-[10px] sm:text-xs uppercase tracking-[0.2em] block mb-1"
                 style={{ color: "rgba(237,237,237,0.35)" }}
               >
                 Social
               </span>
-              <div className="flex gap-6">
+              <div className="flex flex-wrap gap-3 sm:gap-4 lg:gap-6">
                 {socialLinks.map((link) => (
                   <a
                     key={link.name}
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="interactive font-sans text-sm uppercase tracking-[0.15em] transition-opacity duration-300 hover:opacity-60"
+                    className="interactive font-sans text-xs sm:text-sm uppercase tracking-[0.1em] sm:tracking-[0.15em] transition-opacity duration-300 hover:opacity-60"
                     style={{ color: "rgba(237,237,237,0.6)" }}
                   >
                     {link.name}
@@ -143,7 +143,7 @@ export default function Contact() {
             method="POST"
             data-netlify="true"
             netlify-honeypot="bot-field"
-            className="space-y-6"
+            className="space-y-4 sm:space-y-5 lg:space-y-6"
           >
             {/* Netlify hidden fields */}
             <input type="hidden" name="form-name" value="contact" />
@@ -156,7 +156,7 @@ export default function Contact() {
             <div>
               <label
                 htmlFor="name"
-                className="font-sans text-xs uppercase tracking-[0.2em] block mb-3"
+                className="font-sans text-[10px] sm:text-xs uppercase tracking-[0.2em] block mb-2 sm:mb-3"
                 style={{ color: "rgba(237,237,237,0.4)" }}
               >
                 Name
@@ -166,7 +166,7 @@ export default function Contact() {
                 id="name"
                 name="name"
                 required
-                className="w-full bg-transparent border-b pb-3 font-sans text-base focus:outline-none transition-colors duration-300"
+                className="w-full bg-transparent border-b pb-2 sm:pb-3 font-sans text-sm sm:text-base focus:outline-none transition-colors duration-300"
                 style={{
                   color: "#ededed",
                   borderColor: "rgba(237,237,237,0.15)",
@@ -185,7 +185,7 @@ export default function Contact() {
             <div>
               <label
                 htmlFor="email"
-                className="font-sans text-xs uppercase tracking-[0.2em] block mb-3"
+                className="font-sans text-[10px] sm:text-xs uppercase tracking-[0.2em] block mb-2 sm:mb-3"
                 style={{ color: "rgba(237,237,237,0.4)" }}
               >
                 Email
@@ -195,7 +195,7 @@ export default function Contact() {
                 id="email"
                 name="email"
                 required
-                className="w-full bg-transparent border-b pb-3 font-sans text-base focus:outline-none transition-colors duration-300"
+                className="w-full bg-transparent border-b pb-2 sm:pb-3 font-sans text-sm sm:text-base focus:outline-none transition-colors duration-300"
                 style={{
                   color: "#ededed",
                   borderColor: "rgba(237,237,237,0.15)",
@@ -214,7 +214,7 @@ export default function Contact() {
             <div>
               <label
                 htmlFor="message"
-                className="font-sans text-xs uppercase tracking-[0.2em] block mb-2"
+                className="font-sans text-[10px] sm:text-xs uppercase tracking-[0.2em] block mb-2"
                 style={{ color: "rgba(237,237,237,0.4)" }}
               >
                 Message
@@ -224,7 +224,7 @@ export default function Contact() {
                 name="message"
                 rows={2}
                 required
-                className="w-full bg-transparent border-b pb-3 font-sans text-base focus:outline-none transition-colors duration-300 resize-none"
+                className="w-full bg-transparent border-b pb-2 sm:pb-3 font-sans text-sm sm:text-base focus:outline-none transition-colors duration-300 resize-none"
                 style={{
                   color: "#ededed",
                   borderColor: "rgba(237,237,237,0.15)",
@@ -243,7 +243,7 @@ export default function Contact() {
             <Magnetic strength={0.2}>
               <button
                 type="submit"
-                className="interactive font-sans text-xs uppercase tracking-[0.25em] px-10 py-4 border transition-all duration-500 hover:tracking-[0.35em] inline-block"
+                className="interactive font-sans text-xs uppercase tracking-[0.25em] px-8 sm:px-10 py-3 sm:py-4 border transition-all duration-500 hover:tracking-[0.35em] inline-block"
                 style={{
                   color: "#ededed",
                   borderColor: "rgba(237,237,237,0.3)",
