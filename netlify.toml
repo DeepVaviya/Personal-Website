@@ -1,6 +1,9 @@
 [build]
   command = "npm run build"
-  # Let Netlify's Next.js plugin automatically handle the publish directory (.next)
+  publish = "out"
+
+[build.environment]
+  NETLIFY_NEXT_PLUGIN_SKIP = "true"
 
 [[headers]]
   for = "/*"
