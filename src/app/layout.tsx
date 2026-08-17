@@ -55,6 +55,12 @@ export default function RootLayout({
     >
       <head>
         <link rel="icon" href="/images/deep vaviya logo.png" />
+        {/* Block-paint script: hide all content behind preloader BEFORE first paint */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `document.documentElement.classList.add('is-loading');`,
+          }}
+        />
       </head>
       <body
         className="font-sans"

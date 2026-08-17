@@ -15,6 +15,8 @@ export default function Preloader() {
     const tl = gsap.timeline({
       onComplete: () => {
         setIsLoaded(true);
+        // Remove the loading gate — reveals all page content
+        document.documentElement.classList.remove('is-loading');
         setTimeout(() => setVisible(false), 500);
       },
     });
@@ -67,7 +69,7 @@ export default function Preloader() {
 
   return (
     <div
-      className="fixed inset-0 z-[10000] flex flex-col items-center justify-center pointer-events-none"
+      className="preloader-overlay fixed inset-0 z-[10000] flex flex-col items-center justify-center pointer-events-none"
     >
       {/* Slicing Curtains */}
       <div className="absolute inset-0 flex w-full h-full z-0">

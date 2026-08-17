@@ -4,6 +4,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Suspense } from "react";
 import { Preload } from "@react-three/drei";
 import { useScrollStore } from "@/stores/scrollStore";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import HeroObject from "./HeroObject";
 import Lighting from "./Lighting";
 
@@ -27,6 +28,12 @@ function FrameGate() {
 }
 
 export default function Scene() {
+  const isMobile = useIsMobile();
+
+  // Skip the entire WebGL canvas on mobile — MeshTransmissionMaterial
+  // uses multi-pass FBO rendering that crashes mobile GPU contexts
+  if (isMobile) return null;
+
   return (
     <div className="fixed inset-0 z-0" id="canvas-container">
       <Canvas

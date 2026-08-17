@@ -11,6 +11,26 @@
 }
 
 /* ========================
+   Preloader content-gate
+   Hides all page content until loader finishes.
+   The inline <script> in layout.tsx adds .is-loading
+   before first paint; Preloader.tsx removes it when done.
+   ======================== */
+html.is-loading body > *:not(.preloader-overlay) {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+html.is-loading body > .preloader-overlay {
+  opacity: 1 !important;
+}
+
+/* Smooth reveal when is-loading class is removed */
+body > * {
+  transition: opacity 0.4s ease;
+}
+
+/* ========================
    Base Reset & Defaults
    ======================== */
 body.custom-cursor-active,
